@@ -20,7 +20,7 @@ var latestReportTime time.Time
 // Report reports the data to the feishu group
 func Report(namespace, title string, data any) error {
 	once.Do("get ip", func() {
-		currentPublicIP, _ = ip.GetInternalIP()
+		currentPublicIP, _ = ip.GetPublicIP()
 		currentPrivateIP, _ = ip.GetInternalIP()
 	})
 
