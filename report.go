@@ -3,6 +3,7 @@ package report
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/go-zoox/core-utils/strings"
 	"github.com/go-zoox/datetime"
@@ -14,6 +15,7 @@ import (
 
 var currentPublicIP string
 var currentPrivateIP string
+var latestReportTime time.Time
 
 // Report reports the data to the feishu group
 func Report(namespace, title string, data any) error {
@@ -21,6 +23,15 @@ func Report(namespace, title string, data any) error {
 		currentPublicIP, _ = ip.GetInternalIP()
 		currentPrivateIP, _ = ip.GetInternalIP()
 	})
+
+	// signature := md5.Md5([]byte(fmt.Sprintf("%s%s", namespace, title)), crypto.MD5)
+
+	if time.Since(latestReportTime) < minReportInterval {
+		debug.Debug("report too frequently")
+		return nil
+	}
+
+	latestReportTime = time.Now()
 
 	title = fmt.Sprintf(reportTitleFormat, namespace, title)
 	content, err := json.MarshalIndent(map[string]any{
