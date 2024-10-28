@@ -67,6 +67,6 @@ func TestBuildData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	data := BuildData(environment)
+	data := BuildData("zmicro run build", environment)
 	t.Logf("%+v", data)
 }

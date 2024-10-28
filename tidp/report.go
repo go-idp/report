@@ -11,6 +11,7 @@ import (
 )
 
 type ReportRequest struct {
+	Script      string
 	Environment map[string]string `json:"environment"`
 }
 
@@ -54,9 +55,8 @@ func Report(req *ReportRequest) (res *ReportResponse, err error) {
 	res = &ReportResponse{}
 
 	err = safe.Do(func() error {
-		data := BuildData(req.Environment)
-
-		response, err := fetch.Post(reportURL, &fetch.Config{
+		data := BuildData(req.Script, req.Environment)
+		response, err := fetch.Post(getReportURL(), &fetch.Config{
 			Headers: map[string]string{
 				"Content-Type": "application/json",
 			},

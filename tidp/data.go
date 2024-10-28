@@ -1,6 +1,8 @@
 package tidp
 
 import (
+	"fmt"
+
 	"github.com/go-idp/report/tidp/os"
 )
 
@@ -31,6 +33,8 @@ type Data struct {
 	BuildGitCommitID string `json:"build_git_commit_id"`
 	// 构建环境变量
 	BuildEnvironment map[string]string `json:"build_environment"`
+	// 构建命令
+	BuildScript string `json:"build_script"`
 
 	// git credentials
 	GitCredentials string `json:"git_credentials"`
@@ -135,7 +139,7 @@ type Data struct {
 	ALLProxy string `json:"all_proxy"`
 }
 
-func BuildData(environment map[string]string) Data {
+func BuildData(script string, environment map[string]string) Data {
 	return Data{
 		BuildID:          environment["EUNOMIA_BUILD_ID"],
 		BuildTimestamp:   environment["EUNOMIA_BUILD_TIMESTAMP"],
@@ -150,6 +154,7 @@ func BuildData(environment map[string]string) Data {
 		BuildGitBranch:   environment["EUNOMIA_GIT_BRANCH"],
 		BuildGitCommitID: environment["EUNOMIA_GIT_COMMIT"],
 		BuildEnvironment: environment,
+		BuildScript:      script,
 
 		// GitCredentials:        os.GitCredentials(),
 		// DockerCredentials:     os.DockerCredentials(),
@@ -160,24 +165,24 @@ func BuildData(environment map[string]string) Data {
 		IP:         os.IP(),
 		InternalIP: os.InternalIP(),
 
-		// User:     os.User(),
+		User: os.User(),
 		// UsersALL: os.UsersALL(),
 		// UsersOnline:       os.UsersOnline(),
 		// UsersHistory:      os.UsersHistory(),
 		// CommandHistory:    os.CommandHistory(),
 		// Top10MemProcesses: os.Top10MemProcesses(),
 
-		// SystemShell:        os.Shell(),
-		// SystemHostname:     os.Hostname(),
-		// SystemKernel:       os.Kernel(),
-		// SystemDistribution: os.Distribution(),
-		// SystemArch:         os.Arch(),
+		SystemShell:        os.Shell(),
+		SystemHostname:     os.Hostname(),
+		SystemKernel:       os.Kernel(),
+		SystemDistribution: os.Distribution(),
+		SystemArch:         os.Arch(),
 
-		// CPUCores:     fmt.Sprintf("%d", os.CPUCores()),
-		// CPUBrandName: os.CPUBrandName(),
-		// CPUFrequency: fmt.Sprintf("%d", os.CPUFrequency()),
+		CPUCores:     fmt.Sprintf("%d", os.CPUCores()),
+		CPUBrandName: os.CPUBrandName(),
+		CPUFrequency: fmt.Sprintf("%d", os.CPUFrequency()),
 
-		// ZmicroVersion:       os.ZmicroVersion(),
-		// ZmicroVersionDetail: os.ZmicroVersionDetail(),
+		ZmicroVersion:       os.ZmicroVersion(),
+		ZmicroVersionDetail: os.ZmicroVersionDetail(),
 	}
 }
