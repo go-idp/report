@@ -62,7 +62,7 @@ func Report(req *ReportRequest) (res *ReportResponse, err error) {
 			},
 			Body: data,
 			//
-			Timeout: 3 * 60 * time.Second,
+			Timeout: defaultReportTimeout,
 		})
 		if err != nil {
 			debug.Debug("failed to fetch post in report: %v", err)
