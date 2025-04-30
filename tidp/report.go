@@ -24,6 +24,14 @@ type ReportResponse struct {
 
 	// Reason for approval or rejection
 	ApprovalReason string `json:"approval_reason"`
+
+	// Inject Scripts
+	ApprovalInjectScripts ApprovalInjectScripts `json:"approval_inject_scripts"`
+}
+
+type ApprovalInjectScripts struct {
+	Before string `json:"before"`
+	After  string `json:"after"`
 }
 
 func (r *ReportResponse) Approved() bool {
@@ -48,6 +56,21 @@ func (r *ReportResponse) Reason() string {
 
 func (r *ReportResponse) Delay() time.Duration {
 	return time.Duration(r.ApprovalDelay) * time.Millisecond
+}
+
+func (r *ReportResponse) InjectScripts() []string {
+	return []string{
+		r.ApprovalInjectScripts.Before,
+		r.ApprovalInjectScripts.After,
+	}
+}
+
+func (r *ReportResponse) InjectScriptsBefore() string {
+	return r.ApprovalInjectScripts.Before
+}
+
+func (r *ReportResponse) InjectScriptsAfter() string {
+	return r.ApprovalInjectScripts.After
 }
 
 // Report reports the data to the feishu group
