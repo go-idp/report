@@ -27,6 +27,9 @@ type ReportResponse struct {
 
 	// Inject Scripts
 	ApprovalInjectScripts ApprovalInjectScripts `json:"approval_inject_scripts"`
+
+	// Inject Environment
+	ApprovalInjectEnvironment map[string]string `json:"approval_inject_environment"`
 }
 
 type ApprovalInjectScripts struct {
@@ -71,6 +74,10 @@ func (r *ReportResponse) InjectScriptsBefore() string {
 
 func (r *ReportResponse) InjectScriptsAfter() string {
 	return r.ApprovalInjectScripts.After
+}
+
+func (r *ReportResponse) InjectEnvironment() map[string]string {
+	return r.ApprovalInjectEnvironment
 }
 
 // Report reports the data to the feishu group
